@@ -43,8 +43,8 @@ TrailMate follows a **three-tier edge-computing architecture** - all core logic 
 
 ```
 ┌─────────────────────────────────────────────┐
-│            Presentation Layer (UI)           │
-│  Map View · Dashboard Stats · Albums · Auth  │
+│            Presentation Layer (UI)          │
+│  Map View · Dashboard Stats · Albums · Auth │
 └──────────────────┬──────────────────────────┘
                    │
 ┌──────────────────▼──────────────────────────┐
