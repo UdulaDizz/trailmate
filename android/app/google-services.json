@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "186947429433",
+    "project_id": "trailmate-ceda6",
+    "storage_bucket": "trailmate-ceda6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186947429433:android:c1fcb29f86acf06a4019e8",
+        "android_client_info": {
+          "package_name": "com.example.pid1_trailmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186947429433-5qk4jaq43d016rjlr1mgbm7cig468bmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-O77exRzfh2jxJlyKs0tvFNyhlzRIIZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186947429433-5qk4jaq43d016rjlr1mgbm7cig468bmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
