@@ -17,9 +17,9 @@
 
 ## 📖 Overview
 
-TrailMate is an autonomous, edge-computing mobile navigation application designed specifically for hikers exploring Sri Lanka's remote highland regions — where mobile data is unreliable or completely absent.
+TrailMate is an autonomous, edge-computing mobile navigation application designed specifically for hikers exploring Sri Lanka's remote highland regions - where mobile data is unreliable or completely absent.
 
-Standard navigation apps like Google Maps and AllTrails fail without internet. TrailMate shifts all computation to the device, providing continuous GPS tracking, offline maps, real-time deviation alerts, and a visual wayfinding system — all without a single bar of signal.
+Standard navigation apps like Google Maps and AllTrails fail without internet. TrailMate shifts all computation to the device, providing continuous GPS tracking, offline maps, real-time deviation alerts, and a visual wayfinding system - all without a single bar of signal.
 
 ---
 
@@ -27,7 +27,7 @@ Standard navigation apps like Google Maps and AllTrails fail without internet. T
 
 | Feature | Description |
 |---|---|
-| 🗺️ **Offline Map Engine** | Renders OpenStreetMap tiles cached locally on the device — no internet needed |
+| 🗺️ **Offline Map Engine** | Renders OpenStreetMap tiles cached locally on the device - no internet needed |
 | 📍 **GPS Breadcrumb Tracking** | Records your path to a local SQLite database with a 3-metre hardware distance filter to suppress GPS jitter |
 | ⚠️ **Off-Route Safety Alerts** | Uses the Haversine formula to calculate real-time deviation; triggers a high-contrast red warning if you stray >25 m from your path |
 | 📸 **Visual Wayfinding** | Automatically prompts you to capture geotagged landmark photos every 200 m, creating a visual timeline for the return journey |
@@ -39,7 +39,7 @@ Standard navigation apps like Google Maps and AllTrails fail without internet. T
 
 ## 🏗️ Architecture
 
-TrailMate follows a **three-tier edge-computing architecture** — all core logic runs on-device with no cloud dependency during a hike.
+TrailMate follows a **three-tier edge-computing architecture** - all core logic runs on-device with no cloud dependency during a hike.
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -67,9 +67,9 @@ TrailMate follows a **three-tier edge-computing architecture** — all core logi
 
 ### Core Components
 
-- **`LocationController`** — Streams GPS coordinates, applies the 3-metre distance filter, runs the Haversine deviation check, and triggers Visual Wayfinding prompts every 200 m.
-- **`DatabaseHelper`** — Manages the local SQLite database (`trailmate.db`), persisting breadcrumbs, hike metadata, and image file paths.
-- **`SyncService`** — Monitors network state; on reconnection, uploads photos to Cloudinary (unsigned REST), retrieves secure URLs, and writes the complete hike package to Firestore.
+- **`LocationController`** - Streams GPS coordinates, applies the 3-metre distance filter, runs the Haversine deviation check, and triggers Visual Wayfinding prompts every 200 m.
+- **`DatabaseHelper`** - Manages the local SQLite database (`trailmate.db`), persisting breadcrumbs, hike metadata, and image file paths.
+- **`SyncService`** - Monitors network state; on reconnection, uploads photos to Cloudinary (unsigned REST), retrieves secure URLs, and writes the complete hike package to Firestore.
 
 ---
 
@@ -202,7 +202,7 @@ if (minDistance > 25) triggerOffRouteAlert();
 
 ### 3-Metre Hardware Distance Filter
 
-Configured at the `geolocator` stream level — the OS discards any coordinate update where the device has not physically moved at least 3 metres, eliminating GPS jitter and redundant database writes.
+Configured at the `geolocator` stream level - the OS discards any coordinate update where the device has not physically moved at least 3 metres, eliminating GPS jitter and redundant database writes.
 
 ```dart
 const LocationSettings locationSettings = LocationSettings(
@@ -217,26 +217,26 @@ const LocationSettings locationSettings = LocationSettings(
 
 The following files contain sensitive credentials and are **excluded from version control** via `.gitignore`:
 
-- `android/app/google-services.json` — Firebase configuration
-- `lib/config/api_keys.dart` — Cloudinary upload preset & cloud name
-- `.env` — Environment variables (if used)
+- `android/app/google-services.json` - Firebase configuration
+- `lib/config/api_keys.dart` - Cloudinary upload preset & cloud name
+- `.env` - Environment variables (if used)
 
 ---
 
 ## ⚠️ Known Limitations
 
-- **GPS hardware dependency** — Accuracy is bound by the physical quality of the host device's GPS receiver. Budget devices under dense canopy may occasionally produce tracking anomalies despite the software filter.
-- **Flat map tiles** — Current OSM tiles provide 2D spatial awareness only; topographical contour lines and elevation profiles are not yet rendered.
-- **Android-only** — Background location tracking uses Android-specific protocols; iOS support requires additional engineering for Apple's strict background-location permissions.
-- **Aggressive battery savers** — Certain Android OEM skins (MIUI, EMUI) may terminate background services unless TrailMate is whitelisted in battery settings.
+- **GPS hardware dependency** - Accuracy is bound by the physical quality of the host device's GPS receiver. Budget devices under dense canopy may occasionally produce tracking anomalies despite the software filter.
+- **Flat map tiles** - Current OSM tiles provide 2D spatial awareness only; topographical contour lines and elevation profiles are not yet rendered.
+- **Android-only** - Background location tracking uses Android-specific protocols; iOS support requires additional engineering for Apple's strict background-location permissions.
+- **Aggressive battery savers** - Certain Android OEM skins (MIUI, EMUI) may terminate background services unless TrailMate is whitelisted in battery settings.
 
 ---
 
 ## 🔮 Future Work
 
 - Integrate **digital elevation models (DEM)** for topographical contour rendering
-- **iOS support** — Navigate Apple's background-location permission model
-- **On-device ML** — Predict estimated time of arrival based on elevation gain and historical pacing
+- **iOS support** - Navigate Apple's background-location permission model
+- **On-device ML** - Predict estimated time of arrival based on elevation gain and historical pacing
 - Expand **offline trail data** coverage for rural Sri Lankan footpaths
 
 ---
