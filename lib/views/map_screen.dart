@@ -88,7 +88,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
         title: const Text("Visual Wayfinding",
             style: TextStyle(color: AppColors.primary)),
         content: const Text(
-            "You have traveled 100 meters. Capture a landmark to secure your return route.",
+            "You have traveled 200 meters. Capture a landmark to secure your return route.",
             style: TextStyle(color: Colors.white)),
         actions: [
           TextButton(
