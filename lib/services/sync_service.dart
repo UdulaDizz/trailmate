@@ -15,8 +15,6 @@ class SyncService {
   StreamSubscription? _connectivitySubscription;
   bool _isSyncing = false;
 
-  // --- CLOUDINARY CONFIGURATION ---
-  // Replace these with the actual values from your Cloudinary Dashboard!
   final String cloudName = 'dglls21dk';
   final String uploadPreset = 'trailmate_hikes';
 
@@ -45,7 +43,6 @@ class SyncService {
     _connectivitySubscription?.cancel();
   }
 
-  // Helper method to push the image to Cloudinary
   Future<String?> _uploadImageToCloudinary(File imageFile) async {
     try {
       final url =
@@ -60,7 +57,7 @@ class SyncService {
         final responseData = await response.stream.bytesToString();
         final jsonMap = json.decode(responseData);
         return jsonMap[
-            'secure_url']; //  public link to the image!
+            'secure_url']; 
       } else {
         print("Cloudinary Upload Failed: ${response.statusCode}");
         return null;
@@ -86,7 +83,6 @@ class SyncService {
       final firestore = FirebaseFirestore.instance;
 
       for (var hike in unsyncedHikes) {
-        // 1. Create the text document for the Hike in Firestore
         DocumentReference hikeDocRef = await firestore
             .collection('users')
             .doc(user.uid)
@@ -100,11 +96,9 @@ class SyncService {
           'synced_at': FieldValue.serverTimestamp(),
         });
 
-        // 2. Fetch all local photos attached to this specific hike
         final localPhotos =
             await DatabaseHelper.instance.getPhotosForHike(hike['id']);
 
-        // 3. Loop through each photo, upload to Cloudinary, and save link to Firestore
         for (var photo in localPhotos) {
           File imageFile = File(photo['image_path']);
 
@@ -124,7 +118,6 @@ class SyncService {
           }
         }
 
-        // 4. Mark the hike as fully synced locally so it never uploads twice
         await DatabaseHelper.instance.markHikeSynced(hike['id'], hikeDocRef.id);
         print("Successfully synced hike and photos: ${hike['title']}");
       }

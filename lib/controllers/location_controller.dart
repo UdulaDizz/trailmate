@@ -30,7 +30,6 @@ class LocationController extends ChangeNotifier {
   bool hasReachedDestination = false;
   bool isReturning = false;
   
-  // NEW: Off-Route Alert State
   bool isOffRouteWarning = false;
 
   StreamSubscription<Position>? _positionStream;
@@ -106,7 +105,6 @@ class LocationController extends ChangeNotifier {
       notifyListeners();
     });
 
-    // Read the GPS battery saving preference
     final prefs = await SharedPreferences.getInstance();
     bool highAccuracy = prefs.getBool('highAccuracyGps') ?? true;
     LocationAccuracy accuracy = highAccuracy ? LocationAccuracy.high : LocationAccuracy.medium;
@@ -117,17 +115,14 @@ class LocationController extends ChangeNotifier {
       LatLng newPos = LatLng(position.latitude, position.longitude);
       
       if (!isReturning) {
-        // PHASE 1: WALKING FORWARD (Record the path)
         if (pathHistory.isNotEmpty) {
           double incrementalDist = const Distance().as(LengthUnit.Meter, pathHistory.last, newPos);
           distance += (incrementalDist / 1000); 
           distanceSinceLastPhoto += incrementalDist;
 
-          // CHANGED TO 200 METERS
           if (distanceSinceLastPhoto >= 200.0) {
             distanceSinceLastPhoto = 0.0; 
             
-            // Check settings before firing the camera prompt!
             SharedPreferences.getInstance().then((prefs) {
               bool autoPrompts = prefs.getBool('autoWayfindingPrompts') ?? true;
               if (autoPrompts) {
@@ -138,7 +133,6 @@ class LocationController extends ChangeNotifier {
         }
         pathHistory.add(newPos);
       } else {
-        // PHASE 2: RETURNING (Check the math!)
         _checkOffRouteStatus(newPos);
       }
       
@@ -150,14 +144,12 @@ class LocationController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --- THE CROSS-TRACK MATH ALGORITHM ---
   void _checkOffRouteStatus(LatLng userLocation) {
     if (pathHistory.isEmpty) return;
 
     double shortestDistanceToTrail = double.infinity;
     const distanceCalc = Distance();
 
-    // Check distance from user to every breadcrumb dropped on the way up
     for (var breadcrumb in pathHistory) {
       double dist = distanceCalc.as(LengthUnit.Meter, userLocation, breadcrumb);
       if (dist < shortestDistanceToTrail) {
@@ -165,7 +157,6 @@ class LocationController extends ChangeNotifier {
       }
     }
 
-    // If the closest part of the trail is more than 25 meters away, check settings then trigger!
     if (shortestDistanceToTrail > 25.0) {
       SharedPreferences.getInstance().then((prefs) {
         bool alertsEnabled = prefs.getBool('offRouteAlerts') ?? true;

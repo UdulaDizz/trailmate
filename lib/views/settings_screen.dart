@@ -56,7 +56,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _prefs?.setBool(key, value);
   }
 
-  // --- NEW: Profile Picture Logic ---
   void _showPhotoSourceSelector() {
     showModalBottomSheet(
       context: context,
@@ -101,7 +100,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final XFile? photo = await _picker.pickImage(source: source);
     
     if (photo != null) {
-      // Save it permanently to the app's document directory so it doesn't get wiped by the OS cache cleaner
       final directory = await getApplicationDocumentsDirectory();
       final String fileName = 'profile_pic_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final String savedPath = path.join(directory.path, fileName);
@@ -112,12 +110,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
         _profileImagePath = savedPath;
       });
       
-      // Save the path to SharedPreferences so it loads next time
       await _prefs?.setString('profileImagePath', savedPath);
     }
   }
 
-  // --- Existing Logic ---
   Future<void> _handleLogout() async {
     showDialog(
       context: context,
@@ -158,7 +154,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Navigator.pop(context);
               await DatabaseHelper.instance.clearAllData();
               
-              // Clear the profile picture path too!
               await _prefs?.remove('profileImagePath');
               setState(() => _profileImagePath = null);
 
@@ -190,7 +185,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppColors.primary.withOpacity(0.2))),
             child: Row(
               children: [
-                // UPDATED: Interactive Profile Avatar
                 GestureDetector(
                   onTap: _showPhotoSourceSelector,
                   child: Stack(

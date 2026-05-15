@@ -37,7 +37,6 @@ class _AlbumDetailScreenState extends State<AlbumDetailScreen> {
     }
   }
 
-  // NEW: Bottom sheet to choose between Camera and Gallery
   void _showPhotoSourceSelector() {
     showModalBottomSheet(
       context: context,
@@ -78,7 +77,6 @@ class _AlbumDetailScreenState extends State<AlbumDetailScreen> {
     );
   }
 
-  // UPDATED: Now accepts the source (Camera or Gallery)
   Future<void> _addPhotoManually(ImageSource source) async {
     final XFile? photo = await _picker.pickImage(source: source);
     
@@ -173,7 +171,7 @@ class _AlbumDetailScreenState extends State<AlbumDetailScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.black,
-        onPressed: _showPhotoSourceSelector, // Trigger the new bottom sheet
+        onPressed: _showPhotoSourceSelector, 
         child: const Icon(Icons.add_a_photo),
       ),
     );

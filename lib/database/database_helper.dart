@@ -19,7 +19,6 @@ class DatabaseHelper {
     final dbPath = await getApplicationDocumentsDirectory();
     final path = join(dbPath.path, filePath);
 
-    // Bumped to Version 3 for Cloud Syncing
     return await openDatabase(
       path,
       version: 3,
@@ -32,7 +31,7 @@ class DatabaseHelper {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
     const realType = 'REAL NOT NULL';
-    const syncType = 'INTEGER DEFAULT 0'; // 0 = unsynced, 1 = synced
+    const syncType = 'INTEGER DEFAULT 0'; 
 
     await db.execute('''
       CREATE TABLE hikes (
@@ -59,7 +58,6 @@ class DatabaseHelper {
 
   Future _upgradeDB(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 3) {
-      // Safely upgrade existing tables with sync columns
       await db.execute("ALTER TABLE hikes ADD COLUMN firebase_id TEXT;");
       await db.execute("ALTER TABLE hikes ADD COLUMN is_synced INTEGER DEFAULT 0;");
       await db.execute("ALTER TABLE waypoints ADD COLUMN is_synced INTEGER DEFAULT 0;");
@@ -67,7 +65,6 @@ class DatabaseHelper {
     }
   }
 
-  // --- STANDARD OFFLINE METHODS ---
   Future<int> insertHike(HikeModel hike) async {
     final db = await instance.database;
     return await db.insert('hikes', hike.toMap());
@@ -112,7 +109,6 @@ class DatabaseHelper {
     await db.delete('albums', where: 'hike_id = ?', whereArgs: [hikeId]);
   }
 
-  // --- NEW SYNC METHODS ---
   Future<List<Map<String, dynamic>>> getUnsyncedHikes() async {
     final db = await instance.database;
     return await db.query('hikes', where: 'is_synced = ?', whereArgs: [0]);

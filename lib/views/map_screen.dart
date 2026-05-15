@@ -155,7 +155,6 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
     });
   }
 
-  // --- NEW: DYNAMIC BUTTON BUILDER ---
   Widget _buildDynamicHikeButton() {
     if (_controller.isLoadingLocation) {
       return ElevatedButton.icon(
@@ -168,7 +167,6 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
       );
     }
 
-    // Phase 1: Not Started
     if (_controller.activeHikeId == null) {
       return ElevatedButton.icon(
         onPressed: _showStartHikeDialog,
@@ -181,7 +179,6 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
             style: TextStyle(fontWeight: FontWeight.bold)),
       );
     }
-    // Phase 2: Hiking Forward
     else if (!_controller.hasReachedDestination) {
       return ElevatedButton.icon(
         onPressed: _controller.reachDestination,
@@ -194,7 +191,6 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
             style: TextStyle(fontWeight: FontWeight.bold)),
       );
     }
-    // Phase 3: Resting at Destination
     else if (!_controller.isReturning) {
       return ElevatedButton.icon(
         onPressed: _controller.startReturnJourney,
@@ -207,7 +203,6 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
             style: TextStyle(fontWeight: FontWeight.bold)),
       );
     }
-    // Phase 4: Walking Back
     else {
       return ElevatedButton.icon(
         onPressed: () async {
@@ -350,7 +345,6 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
                     duration: const Duration(milliseconds: 300),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      // NEW: Changes to bright red if they wander off the trail!
                       color: _controller.isOffRouteWarning
                           ? Colors.redAccent.withValues(alpha: 0.95)
                           : AppColors.surface.withValues(alpha: 0.95),

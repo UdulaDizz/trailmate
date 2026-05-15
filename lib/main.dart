@@ -11,7 +11,6 @@ import 'views/main_navigation.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // UPDATED: Tell Firebase to use the keys we just downloaded
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -41,7 +40,6 @@ class TrailMateApp extends StatelessWidget {
           surface: AppColors.surface,
         ),
       ),
-      // Automatically skips login if the user is already signed in securely via Firebase!
       home: FirebaseAuth.instance.currentUser == null 
           ? const SplashScreen() 
           : const MainNavigation(),
